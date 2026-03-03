@@ -10,7 +10,9 @@ import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
+import frc.robot.commands.shooter.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The DriverController exposes all driver functions
@@ -32,7 +34,7 @@ public class OperatorInput extends SubsystemBase {
      */
     public OperatorInput() {
 
-        driverController   = new GameController(OperatorInputConstants.DRIVER_CONTROLLER_PORT,
+        driverController = new GameController(OperatorInputConstants.DRIVER_CONTROLLER_PORT,
             OperatorInputConstants.DRIVER_CONTROLLER_DEADBAND);
 
         // Initialize the dashboard selectors
@@ -65,12 +67,14 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem) {
+    public void configureButtonBindings(DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem) {
 
         // Cancel Command - cancels all running commands on all subsystems
         new Trigger(() -> isCancel())
-        .onTrue(new CancelCommand(this, driveSubsystem));
+            .onTrue(new CancelCommand(this, driveSubsystem));
 
+        new Trigger(() -> driverController.getYButton())
+            .onTrue(new IntakeCommand(this, shooterSubsystem));
     }
 
     /*
@@ -159,6 +163,18 @@ public class OperatorInput extends SubsystemBase {
 
     public boolean isResetEncoders() {
         return driverController.getBackButton();
+    }
+
+    public boolean stopShooter() {
+        return driverController.getXButton();
+    }
+
+    public double getShooterSpeed() {
+        return -driverController.getLeftTriggerAxis();
+    }
+
+    public boolean kickerOn() {
+        return driverController.getRightTriggerAxis() > .3;
     }
 
 }

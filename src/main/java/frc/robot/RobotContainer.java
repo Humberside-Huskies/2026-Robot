@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.auto.AutoCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
+import frc.robot.commands.shooter.DefaultShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -25,10 +27,11 @@ public class RobotContainer {
     // Subsystems
     // Declarre the lighting subsystem first and pass it into the other subsystem
     // constructors so that they can indicate status information on the lights
-    private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
-    private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
-    private final VisionSubsystem visionSubsystem = new VisionSubsystem(lightsSubsystem);
-    private final OperatorInput   operatorInput   = new OperatorInput();
+    private final LightsSubsystem  lightsSubsystem  = new LightsSubsystem();
+    private final DriveSubsystem   driveSubsystem   = new DriveSubsystem(lightsSubsystem);
+    private final VisionSubsystem  visionSubsystem  = new VisionSubsystem(lightsSubsystem);
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final OperatorInput    operatorInput    = new OperatorInput();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -39,11 +42,15 @@ public class RobotContainer {
         driveSubsystem.setDefaultCommand(
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
+        // Initialize all Subsystem default commands.
+        shooterSubsystem.setDefaultCommand(
+            new DefaultShooterCommand(operatorInput, shooterSubsystem));
+
         // visionSubsystem.setDefaultCommand(
         // new DefaultVisionCommand(driveSubsystem, visionSubsystem));
 
         // Configure the button bindings - pass in all subsystems
-        operatorInput.configureButtonBindings(driveSubsystem);
+        operatorInput.configureButtonBindings(driveSubsystem, shooterSubsystem);
 
     }
 
