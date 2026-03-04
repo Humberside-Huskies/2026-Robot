@@ -20,17 +20,15 @@ public final class Constants {
 
     public static final class OperatorInputConstants {
 
-        public static final int    DRIVER_CONTROLLER_PORT       = 0;
-        public static final double DRIVER_CONTROLLER_DEADBAND   = .2;
+        public static final int    DRIVER_CONTROLLER_PORT     = 0;
+        public static final double DRIVER_CONTROLLER_DEADBAND = .2;
     }
 
     public static final class AutoConstants {
 
         public static enum AutoPattern {
             DO_NOTHING, DRIVE_FORWARD, BOX, PATH_TEST_THING, DRIVE_FORWARD_AND_OUTAKE_L1;
-
         }
-
     }
 
     public static final class DriveConstants {
