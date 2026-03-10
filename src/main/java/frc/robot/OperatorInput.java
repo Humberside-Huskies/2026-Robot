@@ -177,6 +177,7 @@ public class OperatorInput extends SubsystemBase {
 
     public double getTargetRPM() {
 
+        // accepts RPM values
         if (driverController.getPOV() == 0) {
             return ShooterConstants.LOW_SPEED;
         }

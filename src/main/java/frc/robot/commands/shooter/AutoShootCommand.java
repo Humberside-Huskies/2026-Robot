@@ -41,8 +41,8 @@ public class AutoShootCommand extends LoggingCommand {
 
     @Override
     public boolean isFinished() {
-        // finished after 4 seconds.
-        return timer.get() > 4;
+        // finished after 5 seconds.
+        return timer.get() > 5;
     }
 
     @Override

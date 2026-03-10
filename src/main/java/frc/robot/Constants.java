@@ -37,13 +37,14 @@ public final class Constants {
     public final class ShooterConstants {
 
         // Shooter Speeds
-        public static final double LOW_SPEED            = 3240;
-        public static final double MEDIUM_SPEED         = 3411;
-        public static final double MAX_SPEED            = 5000;
+        public static final double LOW_SPEED              = 3000;
+        public static final double MEDIUM_SPEED           = 3200;
+        public static final double MAX_SPEED              = 5000;
 
         // Motor IDs
-        public static final int    KICKER_MOTOR_CAN_ID  = 34;
-        public static final int    SHOOTER_MOTOR_CAN_ID = 42;
+        public static final int    KICKER_MOTOR_CAN_ID    = 34;
+        public static final int    SHOOTER_MOTOR_CAN_ID   = 42;
+        public static final int    SHOOTER_MOTOR_CAN_ID_B = 61;
     }
 
     public static final class DriveConstants {

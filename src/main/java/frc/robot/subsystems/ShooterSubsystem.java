@@ -15,17 +15,20 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase {
 
     // The motors on the left side of the drive.
-    private final SparkMax        shooterMotor   = new SparkMax(ShooterConstants.SHOOTER_MOTOR_CAN_ID,
+    private final SparkMax        shooterMotor    = new SparkMax(ShooterConstants.SHOOTER_MOTOR_CAN_ID,
         MotorType.kBrushless);
-    private final SparkMax        kickerMotor    = new SparkMax(ShooterConstants.KICKER_MOTOR_CAN_ID,
+    private final SparkMax        shooterMotor2   = new SparkMax(ShooterConstants.SHOOTER_MOTOR_CAN_ID_B,
+        MotorType.kBrushless);
+    private final SparkMax        kickerMotor     = new SparkMax(ShooterConstants.KICKER_MOTOR_CAN_ID,
         MotorType.kBrushless);
 
     // Encoders
-    private final RelativeEncoder shooterEncoder = shooterMotor.getEncoder();
-    private final RelativeEncoder kickerEncoder  = kickerMotor.getEncoder();
+    private final RelativeEncoder shooterEncoder  = shooterMotor.getEncoder();
+    private final RelativeEncoder shooterEncoder2 = shooterMotor2.getEncoder();
+    private final RelativeEncoder kickerEncoder   = kickerMotor.getEncoder();
 
     // target rpm initialized as 0
-    private double                targetRPM      = 0;
+    private double                targetRPM       = 0;
 
     /** Creates a new DriveSubsystem. */
     public ShooterSubsystem() {
@@ -34,10 +37,16 @@ public class ShooterSubsystem extends SubsystemBase {
          * Configure Motors
          */
         SparkMaxConfig config = new SparkMaxConfig();
+
         config.inverted(true)
             .idleMode(IdleMode.kBrake)
             .disableFollowerMode();
         shooterMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        config.inverted(true)
+            .idleMode(IdleMode.kBrake)
+            .disableFollowerMode();
+        shooterMotor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         /*
          * Configure Right Side Motors
@@ -54,13 +63,17 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void setShooterSpeed(double targetRPM) {
         this.targetRPM = targetRPM;
-        double error = targetRPM - getShooterSpeed();
+        double error  = targetRPM - getShooterSpeed();
+        double error2 = targetRPM - getShooterSpeed2();
         SmartDashboard.putNumber("error", error);
-        if (Math.abs(error) < 500) {
+        SmartDashboard.putNumber("error2", error2);
+        if (Math.abs(error) < 500 && Math.abs(error2) < 500) {
             shooterMotor.set(targetRPM / ShooterConstants.MAX_SPEED + .0003 * error);
+            shooterMotor2.set(targetRPM / ShooterConstants.MAX_SPEED + .0003 * error2);
         }
         else {
             shooterMotor.set(targetRPM / ShooterConstants.MAX_SPEED);
+            shooterMotor2.set(targetRPM / ShooterConstants.MAX_SPEED);
         }
     }
 
@@ -68,10 +81,13 @@ public class ShooterSubsystem extends SubsystemBase {
         return Math.round(shooterEncoder.getVelocity());
     }
 
+    public double getShooterSpeed2() {
+        return Math.round(shooterEncoder2.getVelocity());
+    }
 
     /** Check if shooter motors are at speed. Returns true if error is below threshold. */
     public boolean atSpeed() {
-        return Math.abs(getShooterSpeed() - targetRPM) < 200;
+        return Math.abs(getShooterSpeed() - targetRPM) < 200 && Math.abs(getShooterSpeed2() - targetRPM) < 200;
     }
 
 
@@ -91,6 +107,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
 
         SmartDashboard.putNumber("Shooter Speed", getShooterSpeed());
+        SmartDashboard.putNumber("Shooter 2 Speed", getShooterSpeed2());
         SmartDashboard.putNumber("Kicker Speed", getKickerSpeed());
     }
 
