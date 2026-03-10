@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants.AutoPattern;
 import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.Constants.OperatorInputConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
 import frc.robot.commands.shooter.IntakeCommand;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class OperatorInput extends SubsystemBase {
 
     private final GameController driverController;
+    // private final GameController operatorController;
 
     // Auto Setup Choosers
     SendableChooser<AutoPattern> autoPatternChooser = new SendableChooser<>();
@@ -37,6 +39,9 @@ public class OperatorInput extends SubsystemBase {
         driverController = new GameController(OperatorInputConstants.DRIVER_CONTROLLER_PORT,
             OperatorInputConstants.DRIVER_CONTROLLER_DEADBAND);
 
+        // operatorController = new GameController(OperatorInputConstants.OPERATOR_CONTROLLER_PORT,
+        // OperatorInputConstants.OPERATOR_CONTROLLER_DEADBAND);
+
         // Initialize the dashboard selectors
         autoPatternChooser.setDefaultOption("Do Nothing", AutoPattern.DO_NOTHING);
         SmartDashboard.putData("Auto Pattern", autoPatternChooser);
@@ -44,6 +49,7 @@ public class OperatorInput extends SubsystemBase {
         autoPatternChooser.addOption("Box", AutoPattern.BOX);
         autoPatternChooser.addOption("Path Test", AutoPattern.PATH_TEST_THING);
         autoPatternChooser.addOption("Actual Auto", AutoPattern.DRIVE_FORWARD_AND_OUTAKE_L1);
+        autoPatternChooser.addOption("Drive Forward and Shoot", AutoPattern.DRIVE_FORWARD_AND_SHOOT);
 
         waitTimeChooser.setDefaultOption("No wait", 0);
         SmartDashboard.putData("Auto Wait Time", waitTimeChooser);
@@ -169,9 +175,70 @@ public class OperatorInput extends SubsystemBase {
         return driverController.getXButton();
     }
 
-    public double getShooterSpeed() {
-        return -driverController.getLeftTriggerAxis();
+    public double getTargetRPM() {
+
+        if (driverController.getPOV() == 0) {
+            return ShooterConstants.LOW_SPEED;
+        }
+
+        else if (driverController.getPOV() == 90) {
+            return ShooterConstants.MEDIUM_SPEED;
+            // return .5;
+        }
+
+        else if (driverController.getPOV() == 180) {
+            return -.7;
+            // return .55;
+        }
+
+        else if (driverController.getPOV() == 270) {
+            return -1;
+            // return 0.6;
+        }
+
+        return driverController.getLeftTriggerAxis() * ShooterConstants.MAX_SPEED;
+
+        // unjam
+        // else if (driverController.getPOV() == 45) {
+        // shootSpeed = -.4;
+        // }
     }
+
+    /*
+     * public double getShooterSpeed() {
+     * 
+     * double shootSpeed = 0;
+     * 
+     * if (driverController.getPOV() == 0) {
+     * shootSpeed = -.6;
+     * // return .4;
+     * }
+     * 
+     * else if (driverController.getPOV() == 90) {
+     * shootSpeed = -.65;
+     * // return .5;
+     * }
+     * 
+     * else if (driverController.getPOV() == 180) {
+     * shootSpeed = -.7;
+     * // return .55;
+     * }
+     * 
+     * else if (driverController.getPOV() == 270) {
+     * shootSpeed = -.75;
+     * // return 0.6;
+     * }
+     * 
+     * // unjam
+     * else if (driverController.getPOV() == 45) {
+     * shootSpeed = -.4;
+     * }
+     * 
+     * return shootSpeed;
+     * 
+     * // return -driverController.getLeftTriggerAxis();
+     * }
+     */
 
     public boolean kickerOn() {
         return driverController.getRightTriggerAxis() > .3;

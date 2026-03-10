@@ -24,10 +24,11 @@ public class DefaultShooterCommand extends LoggingCommand {
     @Override
     public void execute() {
 
-        // Set the shooter speed based on the left trigger
-        shooterSubsystem.setShooterSpeed(operatorInput.getShooterSpeed());
+        // Set the shooter speed based on the dpad input
+        shooterSubsystem.setShooterSpeed(operatorInput.getTargetRPM());
 
-        if (operatorInput.kickerOn()) {
+        // Only turn kicker on if at speed
+        if (operatorInput.kickerOn() && shooterSubsystem.atSpeed()) {
             shooterSubsystem.setKickerSpeed(1);
         }
         else {

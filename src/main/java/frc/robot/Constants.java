@@ -20,15 +20,30 @@ public final class Constants {
 
     public static final class OperatorInputConstants {
 
-        public static final int    DRIVER_CONTROLLER_PORT     = 0;
+        public static final int    DRIVER_CONTROLLER_PORT     = 1;
         public static final double DRIVER_CONTROLLER_DEADBAND = .2;
+        // public static final int OPERATOR_CONTROLLER_PORT = 0;
+        // public static final double OPERATOR_CONTROLLER_DEADBAND = .2;
     }
 
     public static final class AutoConstants {
 
         public static enum AutoPattern {
-            DO_NOTHING, DRIVE_FORWARD, BOX, PATH_TEST_THING, DRIVE_FORWARD_AND_OUTAKE_L1;
+            DO_NOTHING, DRIVE_FORWARD, BOX, PATH_TEST_THING, DRIVE_FORWARD_AND_OUTAKE_L1,
+            DRIVE_FORWARD_AND_SHOOT;
         }
+    }
+
+    public final class ShooterConstants {
+
+        // Shooter Speeds
+        public static final double LOW_SPEED            = 3240;
+        public static final double MEDIUM_SPEED         = 3411;
+        public static final double MAX_SPEED            = 5000;
+
+        // Motor IDs
+        public static final int    KICKER_MOTOR_CAN_ID  = 34;
+        public static final int    SHOOTER_MOTOR_CAN_ID = 42;
     }
 
     public static final class DriveConstants {

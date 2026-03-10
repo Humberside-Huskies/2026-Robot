@@ -61,6 +61,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new AutoCommand(operatorInput, driveSubsystem,
-            lightsSubsystem, visionSubsystem);
+            lightsSubsystem, visionSubsystem, shooterSubsystem);
     }
 }

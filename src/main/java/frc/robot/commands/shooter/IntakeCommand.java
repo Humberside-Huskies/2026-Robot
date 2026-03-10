@@ -1,5 +1,6 @@
 package frc.robot.commands.shooter;
 
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.OperatorInput;
 import frc.robot.commands.LoggingCommand;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -23,7 +24,7 @@ public class IntakeCommand extends LoggingCommand {
     @Override
     public void execute() {
 
-        shooterSubsystem.setShooterSpeed(-.4);
+        shooterSubsystem.setShooterSpeed(ShooterConstants.MAX_SPEED * .4);
         shooterSubsystem.setKickerSpeed(-.8);
     }
 

@@ -9,15 +9,17 @@ import frc.robot.Constants.AutoConstants.AutoPattern;
 import frc.robot.OperatorInput;
 import frc.robot.commands.drive.DriveOnHeadingCommand;
 import frc.robot.commands.drive.DriveToTargetCommand;
+import frc.robot.commands.shooter.AutoShootCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 
 public class AutoCommand extends SequentialCommandGroup {
 
     public AutoCommand(OperatorInput operatorInput, DriveSubsystem driveSubsystem,
-        LightsSubsystem lightsSubsystem, VisionSubsystem visionSubsystem) {
+        LightsSubsystem lightsSubsystem, VisionSubsystem visionSubsystem, ShooterSubsystem shooterSubsystem) {
 
         // Default is to do nothing.
         // If more commands are added, the instant command will end and
@@ -60,6 +62,20 @@ public class AutoCommand extends SequentialCommandGroup {
         switch (autoPattern) {
 
         case DO_NOTHING:
+            return;
+
+
+        case DRIVE_FORWARD_AND_SHOOT:
+
+            // Set the current heading to zero, the gyro could have drifted while
+            // waiting for auto to start.
+            driveSubsystem.setGyroHeading(0);
+
+            // Drive forward 1m at .25 speed
+            addCommands(new DriveOnHeadingCommand(0, .25, 100, driveSubsystem));
+
+            // run autonomous shoot command
+            addCommands(new AutoShootCommand(shooterSubsystem));
             return;
 
         case DRIVE_FORWARD:
