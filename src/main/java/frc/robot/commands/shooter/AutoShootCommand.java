@@ -27,7 +27,7 @@ public class AutoShootCommand extends LoggingCommand {
         if (timer.get() > .75) {
 
             // run shooter motor
-            shooterSubsystem.setShooterSpeed(ShooterConstants.LOW_SPEED);
+            shooterSubsystem.setShooterSpeed(ShooterConstants.MIN_SPEED);
 
             // Only kick when at speed
             if (shooterSubsystem.atSpeed()) {

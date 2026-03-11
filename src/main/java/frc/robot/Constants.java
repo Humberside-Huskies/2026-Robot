@@ -20,10 +20,10 @@ public final class Constants {
 
     public static final class OperatorInputConstants {
 
-        public static final int    DRIVER_CONTROLLER_PORT     = 1;
-        public static final double DRIVER_CONTROLLER_DEADBAND = .2;
-        // public static final int OPERATOR_CONTROLLER_PORT = 0;
-        // public static final double OPERATOR_CONTROLLER_DEADBAND = .2;
+        public static final int    DRIVER_CONTROLLER_PORT       = 1;
+        public static final double DRIVER_CONTROLLER_DEADBAND   = .2;
+        public static final int    OPERATOR_CONTROLLER_PORT     = 0;
+        public static final double OPERATOR_CONTROLLER_DEADBAND = .2;
     }
 
     public static final class AutoConstants {
@@ -37,8 +37,13 @@ public final class Constants {
     public final class ShooterConstants {
 
         // Shooter Speeds
+        public static final double MIN_SPEED              = 2800;
+
+        // reliable for close range
         public static final double LOW_SPEED              = 3000;
+
         public static final double MEDIUM_SPEED           = 3200;
+        public static final double HIGH_SPEED             = 3400;
         public static final double MAX_SPEED              = 5000;
 
         // Motor IDs

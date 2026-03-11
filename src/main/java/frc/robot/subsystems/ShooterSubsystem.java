@@ -81,13 +81,14 @@ public class ShooterSubsystem extends SubsystemBase {
         return Math.round(shooterEncoder.getVelocity());
     }
 
+
     public double getShooterSpeed2() {
         return Math.round(shooterEncoder2.getVelocity());
     }
 
     /** Check if shooter motors are at speed. Returns true if error is below threshold. */
     public boolean atSpeed() {
-        return Math.abs(getShooterSpeed() - targetRPM) < 200 && Math.abs(getShooterSpeed2() - targetRPM) < 200;
+        return Math.abs(getShooterSpeed() - targetRPM) < 180 && Math.abs(getShooterSpeed2() - targetRPM) < 180;
     }
 
 

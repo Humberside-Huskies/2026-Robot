@@ -23,7 +23,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class OperatorInput extends SubsystemBase {
 
     private final GameController driverController;
-    // private final GameController operatorController;
+    private final GameController operatorController;
 
     // Auto Setup Choosers
     SendableChooser<AutoPattern> autoPatternChooser = new SendableChooser<>();
@@ -36,11 +36,11 @@ public class OperatorInput extends SubsystemBase {
      */
     public OperatorInput() {
 
-        driverController = new GameController(OperatorInputConstants.DRIVER_CONTROLLER_PORT,
+        driverController   = new GameController(OperatorInputConstants.DRIVER_CONTROLLER_PORT,
             OperatorInputConstants.DRIVER_CONTROLLER_DEADBAND);
 
-        // operatorController = new GameController(OperatorInputConstants.OPERATOR_CONTROLLER_PORT,
-        // OperatorInputConstants.OPERATOR_CONTROLLER_DEADBAND);
+        operatorController = new GameController(OperatorInputConstants.OPERATOR_CONTROLLER_PORT,
+            OperatorInputConstants.OPERATOR_CONTROLLER_DEADBAND);
 
         // Initialize the dashboard selectors
         autoPatternChooser.setDefaultOption("Do Nothing", AutoPattern.DO_NOTHING);
@@ -79,7 +79,7 @@ public class OperatorInput extends SubsystemBase {
         new Trigger(() -> isCancel())
             .onTrue(new CancelCommand(this, driveSubsystem));
 
-        new Trigger(() -> driverController.getYButton())
+        new Trigger(() -> operatorController.getYButton())
             .onTrue(new IntakeCommand(this, shooterSubsystem));
     }
 
@@ -172,32 +172,30 @@ public class OperatorInput extends SubsystemBase {
     }
 
     public boolean stopShooter() {
-        return driverController.getXButton();
+        return operatorController.getXButton();
     }
 
     public double getTargetRPM() {
 
         // accepts RPM values
-        if (driverController.getPOV() == 0) {
+        if (operatorController.getPOV() == 0) {
+            return ShooterConstants.MIN_SPEED;
+        }
+
+        // reliable
+        else if (operatorController.getPOV() == 90) {
             return ShooterConstants.LOW_SPEED;
         }
 
-        else if (driverController.getPOV() == 90) {
+        else if (operatorController.getPOV() == 180) {
             return ShooterConstants.MEDIUM_SPEED;
-            // return .5;
         }
 
-        else if (driverController.getPOV() == 180) {
-            return -.7;
-            // return .55;
+        else if (operatorController.getPOV() == 270) {
+            return ShooterConstants.HIGH_SPEED;
         }
 
-        else if (driverController.getPOV() == 270) {
-            return -1;
-            // return 0.6;
-        }
-
-        return driverController.getLeftTriggerAxis() * ShooterConstants.MAX_SPEED;
+        return operatorController.getLeftTriggerAxis() * ShooterConstants.MAX_SPEED;
 
         // unjam
         // else if (driverController.getPOV() == 45) {
@@ -242,7 +240,7 @@ public class OperatorInput extends SubsystemBase {
      */
 
     public boolean kickerOn() {
-        return driverController.getRightTriggerAxis() > .3;
+        return operatorController.getRightTriggerAxis() > .3;
     }
 
 }
