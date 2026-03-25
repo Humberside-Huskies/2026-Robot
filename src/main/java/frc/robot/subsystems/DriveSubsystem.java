@@ -319,13 +319,23 @@ public class DriveSubsystem extends SubsystemBase {
         return getAverageEncoderValue() * DriveConstants.CM_PER_ENCODER_COUNT;
     }
 
+    // returns only left encoder distance
+    public double getLeftEncoderDistanceCM() {
+        return getLeftEncoder() * DriveConstants.CM_PER_ENCODER_COUNT;
+    }
+
+    // returns only right encoder distance
+    public double getRightEncoderDistanceCM() {
+        return getRightEncoder() * DriveConstants.CM_PER_ENCODER_COUNT;
+    }
+
     /**
      * Gets the left drive encoder.
      *
      * @return the left drive encoder
      */
     public double getLeftEncoder() {
-        return leftEncoder.getPosition() + simLeftEncoder;
+        return leftEncoder.getPosition(); // + simLeftEncoder;
     }
 
     /**
@@ -352,7 +362,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the right drive encoder
      */
     public double getRightEncoder() {
-        return rightEncoder.getPosition() + simRightEncoder;
+        return rightEncoder.getPosition(); // + simRightEncoder;
     }
 
     public Pose2d getPose() {

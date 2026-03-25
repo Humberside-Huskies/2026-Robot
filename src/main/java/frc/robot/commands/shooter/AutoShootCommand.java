@@ -1,7 +1,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.LoggingCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -9,9 +8,11 @@ public class AutoShootCommand extends LoggingCommand {
 
     private final ShooterSubsystem shooterSubsystem;
     private final Timer            timer = new Timer();
+    private final double           autoShootSpeed;
 
-    public AutoShootCommand(ShooterSubsystem shooterSubsystem) {
+    public AutoShootCommand(ShooterSubsystem shooterSubsystem, double autoShootSpeed) {
         this.shooterSubsystem = shooterSubsystem;
+        this.autoShootSpeed   = autoShootSpeed;
         addRequirements(shooterSubsystem);
     }
 
@@ -27,7 +28,7 @@ public class AutoShootCommand extends LoggingCommand {
         if (timer.get() > .75) {
 
             // run shooter motor
-            shooterSubsystem.setShooterSpeed(ShooterConstants.MIN_SPEED);
+            shooterSubsystem.setShooterSpeed(autoShootSpeed);
 
             // Only kick when at speed
             if (shooterSubsystem.atSpeed()) {

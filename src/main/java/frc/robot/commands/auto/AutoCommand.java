@@ -6,9 +6,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants.AutoPattern;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.OperatorInput;
 import frc.robot.commands.drive.DriveOnHeadingCommand;
 import frc.robot.commands.drive.DriveToTargetCommand;
+import frc.robot.commands.drive.EncoderRotateCommand;
 import frc.robot.commands.shooter.AutoShootCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
@@ -75,7 +78,35 @@ public class AutoCommand extends SequentialCommandGroup {
             addCommands(new DriveOnHeadingCommand(0, .25, 100, driveSubsystem));
 
             // run autonomous shoot command
-            addCommands(new AutoShootCommand(shooterSubsystem));
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.MEDIUM_SPEED));
+            return;
+
+        case LEFT_AUTO:
+            // Set the current heading to zero, the gyro could have drifted while
+            // waiting for auto to start.
+            driveSubsystem.setGyroHeading(0);
+
+            // Drive forward 1m at .25 speed
+            addCommands(new DriveOnHeadingCommand(0, .25, 150, driveSubsystem));
+
+            // rotate; final parameter is direction, negative (left) is (+) positive(right) is (-)
+            addCommands(new EncoderRotateCommand(driveSubsystem, 90, 0.3, DriveConstants.RIGHT_TURN));
+            // run autonomous shoot command
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.HIGH_SPEED));
+            return;
+
+        case RIGHT_AUTO:
+
+            driveSubsystem.setGyroHeading(0);
+
+            // Drive forward 1m at .25 speed
+            addCommands(new DriveOnHeadingCommand(0, .25, 150, driveSubsystem));
+
+            // rotate; final parameter is direction, negative (left) is (+) positive(right) is (-)
+            addCommands(new EncoderRotateCommand(driveSubsystem, 90, 0.3, DriveConstants.LEFT_TURN));
+
+            // run autonomous shoot command
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.HIGH_SPEED));
             return;
 
         case DRIVE_FORWARD:

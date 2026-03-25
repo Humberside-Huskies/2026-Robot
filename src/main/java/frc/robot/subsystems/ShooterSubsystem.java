@@ -62,15 +62,19 @@ public class ShooterSubsystem extends SubsystemBase {
      * Shooter Motor routines
      */
     public void setShooterSpeed(double targetRPM) {
+
         this.targetRPM = targetRPM;
+
         double error  = targetRPM - getShooterSpeed();
         double error2 = targetRPM - getShooterSpeed2();
         SmartDashboard.putNumber("error", error);
         SmartDashboard.putNumber("error2", error2);
+
         if (Math.abs(error) < 500 && Math.abs(error2) < 500) {
             shooterMotor.set(targetRPM / ShooterConstants.MAX_SPEED + .0003 * error);
             shooterMotor2.set(targetRPM / ShooterConstants.MAX_SPEED + .0003 * error2);
         }
+
         else {
             shooterMotor.set(targetRPM / ShooterConstants.MAX_SPEED);
             shooterMotor2.set(targetRPM / ShooterConstants.MAX_SPEED);

@@ -30,7 +30,7 @@ public final class Constants {
 
         public static enum AutoPattern {
             DO_NOTHING, DRIVE_FORWARD, BOX, PATH_TEST_THING, DRIVE_FORWARD_AND_OUTAKE_L1,
-            DRIVE_FORWARD_AND_SHOOT;
+            DRIVE_FORWARD_AND_SHOOT, LEFT_AUTO, RIGHT_AUTO;
         }
     }
 
@@ -38,10 +38,8 @@ public final class Constants {
 
         // Shooter Speeds
         public static final double MIN_SPEED              = 2800;
-
-        // reliable for close range
         public static final double LOW_SPEED              = 3000;
-
+        // Auto shoot speed
         public static final double MEDIUM_SPEED           = 3200;
         public static final double HIGH_SPEED             = 3400;
         public static final double MAX_SPEED              = 5000;
@@ -65,10 +63,29 @@ public final class Constants {
         public static final boolean LEFT_MOTOR_INVERTED           = false;
         public static final boolean RIGHT_MOTOR_INVERTED          = true;
 
-        public static final double  ENCODER_COUNTS_PER_REVOLUTION = 8.46;
+        /*
+         * //NEO motors have 42 encoder counts per motor revolution
+         * public static final double NEO_CPR = 42;
+         * //# of motor revs per 1 full wheel rev
+         * public static final double DRIVE_GEAR_RATIO = 10.71;
+         * //Encoder counts per 1 full wheel rev
+         * public static final double ENCODER_COUNTS_PER_REVOLUTION = NEO_CPR * DRIVE_GEAR_RATIO;
+         */
+        // 6 inches
         public static final double  ROBOT_WHEEL_DIAMETER_CM       = 15.24;
+
+        public static final double  ENCODER_COUNTS_PER_REVOLUTION = 8.46;
+
+        // Turn directions for encoder command; positive is left, negative is right
+        public static final float   LEFT_TURN                     = 1;
+        public static final float   RIGHT_TURN                    = -1;
+
+        // Remove *2
         public static final double  CM_PER_ENCODER_COUNT          = (ROBOT_WHEEL_DIAMETER_CM * Math.PI) * 2
             / ENCODER_COUNTS_PER_REVOLUTION;
+
+        // 26.5 inches
+        public static final double  CM_TRACK_WIDTH                = 67.31;
 
         public static final boolean GYRO_INVERTED                 = false;
 

@@ -45,11 +45,14 @@ public class OperatorInput extends SubsystemBase {
         // Initialize the dashboard selectors
         autoPatternChooser.setDefaultOption("Do Nothing", AutoPattern.DO_NOTHING);
         SmartDashboard.putData("Auto Pattern", autoPatternChooser);
-        autoPatternChooser.addOption("Drive Forward", AutoPattern.DRIVE_FORWARD);
-        autoPatternChooser.addOption("Box", AutoPattern.BOX);
-        autoPatternChooser.addOption("Path Test", AutoPattern.PATH_TEST_THING);
-        autoPatternChooser.addOption("Actual Auto", AutoPattern.DRIVE_FORWARD_AND_OUTAKE_L1);
+        // autoPatternChooser.addOption("Drive Forward", AutoPattern.DRIVE_FORWARD);
+        // autoPatternChooser.addOption("Box", AutoPattern.BOX);
+        // autoPatternChooser.addOption("Path Test", AutoPattern.PATH_TEST_THING);
+        // autoPatternChooser.addOption("Actual Auto", AutoPattern.DRIVE_FORWARD_AND_OUTAKE_L1);
         autoPatternChooser.addOption("Drive Forward and Shoot", AutoPattern.DRIVE_FORWARD_AND_SHOOT);
+        autoPatternChooser.addOption("Left Auto", AutoPattern.LEFT_AUTO);
+        autoPatternChooser.addOption("Right Auto", AutoPattern.RIGHT_AUTO);
+
 
         waitTimeChooser.setDefaultOption("No wait", 0);
         SmartDashboard.putData("Auto Wait Time", waitTimeChooser);
@@ -182,11 +185,11 @@ public class OperatorInput extends SubsystemBase {
             return ShooterConstants.MIN_SPEED;
         }
 
-        // reliable
         else if (operatorController.getPOV() == 90) {
             return ShooterConstants.LOW_SPEED;
         }
 
+        // reliable
         else if (operatorController.getPOV() == 180) {
             return ShooterConstants.MEDIUM_SPEED;
         }
