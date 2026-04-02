@@ -99,6 +99,14 @@ public final class Constants {
         public static final double  ROBOT_WIDTH                   = .6;
     }
 
+    public static final class ClimbConstants {
+        public static final int    RIGHT_MOTOR_PORT    = 40;
+        public static final int    LEFT_MOTOR_PORT     = 41;
+
+        public static final double CLIMBER_MOTOR_SPEED = 0.5;
+        public static final double RETRACT_MOTOR_SPEED = -0.65;
+    }
+
     public static final class LightsConstants {
 
         public static final int LED_STRING_PWM_PORT = 0;

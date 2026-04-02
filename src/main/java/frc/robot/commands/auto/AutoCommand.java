@@ -13,6 +13,7 @@ import frc.robot.commands.drive.DriveOnHeadingCommand;
 import frc.robot.commands.drive.DriveToTargetCommand;
 import frc.robot.commands.drive.EncoderRotateCommand;
 import frc.robot.commands.shooter.AutoShootCommand;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -21,8 +22,12 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class AutoCommand extends SequentialCommandGroup {
 
-    public AutoCommand(OperatorInput operatorInput, DriveSubsystem driveSubsystem,
-        LightsSubsystem lightsSubsystem, VisionSubsystem visionSubsystem, ShooterSubsystem shooterSubsystem) {
+    public AutoCommand(OperatorInput operatorInput,
+        DriveSubsystem driveSubsystem,
+        LightsSubsystem lightsSubsystem,
+        VisionSubsystem visionSubsystem,
+        ClimbSubsystem climbSubsystem,
+        ShooterSubsystem shooterSubsystem) {
 
         // Default is to do nothing.
         // If more commands are added, the instant command will end and

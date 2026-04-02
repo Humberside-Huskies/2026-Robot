@@ -12,6 +12,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
 import frc.robot.commands.shooter.IntakeCommand;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -76,14 +77,15 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem) {
+    public void configureButtonBindings(DriveSubsystem drive, ShooterSubsystem shooter, ClimbSubsystem climb) {
 
-        // Cancel Command - cancels all running commands on all subsystems
+        // Cancel Command
         new Trigger(() -> isCancel())
-            .onTrue(new CancelCommand(this, driveSubsystem));
+            .onTrue(new CancelCommand(this, drive));
 
+        // Intake
         new Trigger(() -> operatorController.getYButton())
-            .onTrue(new IntakeCommand(this, shooterSubsystem));
+            .onTrue(new IntakeCommand(this, shooter));
     }
 
     /*
@@ -95,6 +97,14 @@ public class OperatorInput extends SubsystemBase {
 
     public Integer getAutoDelay() {
         return waitTimeChooser.getSelected();
+    }
+
+    public double isClimb() {
+        return operatorController.getLeftTriggerAxis();
+    }
+
+    public double isRetract() {
+        return operatorController.getRightTriggerAxis();
     }
 
     /*

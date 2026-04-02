@@ -15,40 +15,39 @@ public class LightsSubsystem extends SubsystemBase {
 
     private final AddressableLEDBufferView leftSpeedBuffer  = new AddressableLEDBufferView(ledBuffer, 0,
         LightsConstants.LED_STRING_LENGTH / 2);
-    private final AddressableLEDBufferView rightSpeedBuffer = new AddressableLEDBufferView(ledBuffer,
-        LightsConstants.LED_STRING_LENGTH / 2, LightsConstants.LED_STRING_LENGTH - 1).reversed();
+
+    private final AddressableLEDBufferView rightSpeedBuffer = new AddressableLEDBufferView(
+        ledBuffer,
+        LightsConstants.LED_STRING_LENGTH / 2,
+        LightsConstants.LED_STRING_LENGTH - 1).reversed();
+
     private boolean                        firstTime        = true;
+    private boolean                        isClimb          = false;
 
     public LightsSubsystem() {
-
-        // Start the LED string
         ledString.setLength(LightsConstants.LED_STRING_LENGTH);
         ledString.start();
+    }
 
-        // setLEDColor(255, 255, 0);
+    public void setClimb(boolean isClimb) {
+        this.isClimb = isClimb;
     }
 
     private void setLEDColor(int red, int green, int blue) {
-
         for (int i = 0; i < 11; i++) {
             leftSpeedBuffer.setRGB(i, red, green, blue);
-            // rightSpeedBuffer.setRGB(i, red, green, blue);
-            // ledBuffer.setRGB(i, red, green, blue);
+            rightSpeedBuffer.setRGB(i, red, green, blue);
         }
 
         ledString.setData(ledBuffer);
     }
 
     public void setLEDPhilip() {
-
         for (int index = 0; index < this.ledBuffer.getLength(); index++) {
-            // int hue = (int) Math.floor(Math.random() * 255);
             this.ledBuffer.setHSV(index, 25, 190, 250);
-
         }
 
         ledString.setData(this.ledBuffer);
-
     }
 
     private Color randomColorShift(Color aColor) {
@@ -65,9 +64,13 @@ public class LightsSubsystem extends SubsystemBase {
         return true;
     }
 
-
     @Override
     public void periodic() {
-        setLEDPhilip();
+        if (isClimb) {
+            setLEDColor(0, 255, 0);
+        }
+        else {
+            setLEDPhilip();
+        }
     }
 }
