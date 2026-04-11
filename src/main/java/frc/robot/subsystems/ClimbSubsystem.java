@@ -52,6 +52,8 @@ public class ClimbSubsystem extends SubsystemBase {
         rightMotor.set(rightSpeed);
     }
 
+    // Obtain encoder values
+
     public double getLeftEncoder() {
         return leftMotor.getEncoder().getPosition();
     }
@@ -59,6 +61,18 @@ public class ClimbSubsystem extends SubsystemBase {
     public double getRightEncoder() {
         return rightMotor.getEncoder().getPosition();
     }
+
+    // Convert encoder rotations to distance
+
+    public double getLeftHeight() {
+        return getLeftEncoder() * ClimbConstants.INCHES_PER_MOTOR_ROTATION;
+    }
+
+
+    public double getRightHeight() {
+        return getRightEncoder() * ClimbConstants.INCHES_PER_MOTOR_ROTATION;
+    }
+
 
     /** Safely stop the subsystem from moving */
     public void stop() {
@@ -83,6 +97,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("Climb L Top", getLeftEncoder() < -58);
         SmartDashboard.putBoolean("Climb R Top", getRightEncoder() < -58);
+
+        SmartDashboard.putNumber("Left Height", getLeftHeight());
+        SmartDashboard.putNumber("Right Height", getRightHeight());
     }
 
     @Override

@@ -43,11 +43,11 @@ public class DefaultClimbCommand extends LoggingCommand {
             climbSubsystem.resetClimbEncoders();
         }
 
-        if (operatorInput.isClimb() > 0.4 && !(operatorInput.isRetract() > 0.4)) {
+        if (operatorInput.isExtend() && !(operatorInput.isRetract())) {
 
             climbSubsystem.setMotorSpeeds(-(ClimbConstants.CLIMBER_MOTOR_SPEED), ClimbConstants.CLIMBER_MOTOR_SPEED);
         }
-        else if (operatorInput.isRetract() > 0.4 && !(operatorInput.isClimb() > 0.4)) {
+        else if (operatorInput.isRetract() && !(operatorInput.isExtend())) {
             climbSubsystem.setMotorSpeeds(-(ClimbConstants.RETRACT_MOTOR_SPEED), ClimbConstants.RETRACT_MOTOR_SPEED);
             lightsSubsystem.setClimb(true);
         }

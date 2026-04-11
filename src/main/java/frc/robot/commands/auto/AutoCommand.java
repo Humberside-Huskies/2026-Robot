@@ -9,6 +9,9 @@ import frc.robot.Constants.AutoConstants.AutoPattern;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.OperatorInput;
+import frc.robot.commands.climb.ClimbDownCommand;
+import frc.robot.commands.climb.ClimbUpCommand;
+import frc.robot.commands.drive.AutoDriveCommand;
 import frc.robot.commands.drive.DriveOnHeadingCommand;
 import frc.robot.commands.drive.DriveToTargetCommand;
 import frc.robot.commands.drive.EncoderRotateCommand;
@@ -73,6 +76,21 @@ public class AutoCommand extends SequentialCommandGroup {
             return;
 
 
+        case AUTO_CLIMB:
+            // Drive forward 1m at .25 speed
+            addCommands(new DriveOnHeadingCommand(0, .25, 100, driveSubsystem));
+            // run autonomous shoot command
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.MEDIUM_SPEED));
+            // extend climber
+            addCommands(new ClimbDownCommand(climbSubsystem));
+            // drive to tower
+            addCommands(new DriveOnHeadingCommand(0, .2, 300, driveSubsystem));
+            // delay 2 seconds
+            addCommands(new WaitCommand(2.0));
+            // retract climber
+            addCommands(new ClimbUpCommand(climbSubsystem));
+            return;
+
         case DRIVE_FORWARD_AND_SHOOT:
 
             // Set the current heading to zero, the gyro could have drifted while
@@ -83,7 +101,7 @@ public class AutoCommand extends SequentialCommandGroup {
             addCommands(new DriveOnHeadingCommand(0, .25, 100, driveSubsystem));
 
             // run autonomous shoot command
-            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.MEDIUM_SPEED));
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.LOW_SPEED + 30));
             return;
 
         case LEFT_AUTO:
@@ -95,9 +113,9 @@ public class AutoCommand extends SequentialCommandGroup {
             addCommands(new DriveOnHeadingCommand(0, .25, 150, driveSubsystem));
 
             // rotate; final parameter is direction, negative (left) is (+) positive(right) is (-)
-            addCommands(new EncoderRotateCommand(driveSubsystem, 90, 0.3, DriveConstants.RIGHT_TURN));
+            addCommands(new EncoderRotateCommand(driveSubsystem, 45, 0.3, DriveConstants.RIGHT_TURN));
             // run autonomous shoot command
-            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.HIGH_SPEED));
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.SPEED2 - 60));
             return;
 
         case RIGHT_AUTO:
@@ -108,20 +126,15 @@ public class AutoCommand extends SequentialCommandGroup {
             addCommands(new DriveOnHeadingCommand(0, .25, 150, driveSubsystem));
 
             // rotate; final parameter is direction, negative (left) is (+) positive(right) is (-)
-            addCommands(new EncoderRotateCommand(driveSubsystem, 90, 0.3, DriveConstants.LEFT_TURN));
+            addCommands(new EncoderRotateCommand(driveSubsystem, 45, 0.3, DriveConstants.LEFT_TURN));
 
             // run autonomous shoot command
-            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.HIGH_SPEED));
+            addCommands(new AutoShootCommand(shooterSubsystem, ShooterConstants.SPEED2 - 60));
             return;
 
         case DRIVE_FORWARD:
-
-            // Set the current heading to zero, the gyro could have drifted while
-            // waiting for auto to start.
-            driveSubsystem.setGyroHeading(0);
-
-            // Drive forward 1m at .2 speed
-            addCommands(new DriveOnHeadingCommand(0, .2, 100, driveSubsystem));
+            // Drive forward at .2 speed
+            addCommands(new AutoDriveCommand(driveSubsystem, DriveConstants.ROBOT_WHEEL_CIRCUMFERENCE, 0.2, 1));
             return;
 
         case PATH_TEST_THING:

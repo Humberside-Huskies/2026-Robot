@@ -11,6 +11,7 @@ import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
+import frc.robot.commands.shooter.EjectCommand;
 import frc.robot.commands.shooter.IntakeCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +54,7 @@ public class OperatorInput extends SubsystemBase {
         autoPatternChooser.addOption("Drive Forward and Shoot", AutoPattern.DRIVE_FORWARD_AND_SHOOT);
         autoPatternChooser.addOption("Left Auto", AutoPattern.LEFT_AUTO);
         autoPatternChooser.addOption("Right Auto", AutoPattern.RIGHT_AUTO);
+        autoPatternChooser.addOption("Drive Forward", AutoPattern.DRIVE_FORWARD);
 
 
         waitTimeChooser.setDefaultOption("No wait", 0);
@@ -86,6 +88,10 @@ public class OperatorInput extends SubsystemBase {
         // Intake
         new Trigger(() -> operatorController.getYButton())
             .onTrue(new IntakeCommand(this, shooter));
+
+        // Eject
+        new Trigger(() -> operatorController.getAButton())
+            .onTrue(new EjectCommand(this, shooter));
     }
 
     /*
@@ -99,12 +105,12 @@ public class OperatorInput extends SubsystemBase {
         return waitTimeChooser.getSelected();
     }
 
-    public double isClimb() {
-        return operatorController.getLeftTriggerAxis();
+    public boolean isExtend() {
+        return operatorController.getRightBumperButton();
     }
 
-    public double isRetract() {
-        return operatorController.getRightTriggerAxis();
+    public boolean isRetract() {
+        return operatorController.getLeftBumperButton();
     }
 
     /*
@@ -192,20 +198,21 @@ public class OperatorInput extends SubsystemBase {
 
         // accepts RPM values
         if (operatorController.getPOV() == 0) {
-            return ShooterConstants.MIN_SPEED;
+            return ShooterConstants.SPEED1;
         }
 
+        // consistent
         else if (operatorController.getPOV() == 90) {
-            return ShooterConstants.LOW_SPEED;
+            return ShooterConstants.SPEED2;
         }
 
-        // reliable
+        // consistent
         else if (operatorController.getPOV() == 180) {
-            return ShooterConstants.MEDIUM_SPEED;
+            return ShooterConstants.SPEED3;
         }
 
         else if (operatorController.getPOV() == 270) {
-            return ShooterConstants.HIGH_SPEED;
+            return ShooterConstants.SPEED4;
         }
 
         return operatorController.getLeftTriggerAxis() * ShooterConstants.MAX_SPEED;

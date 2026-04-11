@@ -35,7 +35,7 @@ public class ClimbUpCommand extends LoggingCommand {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (climbSubsystem.getLeftEncoder() > 0)
+        if (climbSubsystem.getLeftEncoder() > -2)
             return true;
         return false;
     }

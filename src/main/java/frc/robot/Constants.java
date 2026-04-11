@@ -30,7 +30,7 @@ public final class Constants {
 
         public static enum AutoPattern {
             DO_NOTHING, DRIVE_FORWARD, BOX, PATH_TEST_THING, DRIVE_FORWARD_AND_OUTAKE_L1,
-            DRIVE_FORWARD_AND_SHOOT, LEFT_AUTO, RIGHT_AUTO;
+            DRIVE_FORWARD_AND_SHOOT, LEFT_AUTO, RIGHT_AUTO, AUTO_CLIMB;
         }
     }
 
@@ -38,11 +38,23 @@ public final class Constants {
 
         // Shooter Speeds
         public static final double MIN_SPEED              = 2800;
+        // Centre Auto Shoot Speed
         public static final double LOW_SPEED              = 3000;
-        // Auto shoot speed
+
         public static final double MEDIUM_SPEED           = 3200;
         public static final double HIGH_SPEED             = 3400;
         public static final double MAX_SPEED              = 5000;
+
+        // --------Tester Speeds-----------------------
+        public static final double SPEED1                 = 3400;
+
+        // Consistent
+        public static final double SPEED2                 = 3600;
+        public static final double SPEED3                 = 3800;
+
+        // filter speed
+        public static final double SPEED4                 = 4000;
+        // -------------------------------------------
 
         // Motor IDs
         public static final int    KICKER_MOTOR_CAN_ID    = 34;
@@ -57,23 +69,27 @@ public final class Constants {
         }
 
         // NOTE: Follower motors are at CAN_ID+1
-        public static final int     LEFT_MOTOR_CAN_ID             = 20;
-        public static final int     RIGHT_MOTOR_CAN_ID            = 10;
+        public static final int     LEFT_MOTOR_CAN_ID    = 20;
+        public static final int     RIGHT_MOTOR_CAN_ID   = 10;
 
-        public static final boolean LEFT_MOTOR_INVERTED           = false;
-        public static final boolean RIGHT_MOTOR_INVERTED          = true;
+        public static final boolean LEFT_MOTOR_INVERTED  = false;
+        public static final boolean RIGHT_MOTOR_INVERTED = true;
 
-        /*
-         * //NEO motors have 42 encoder counts per motor revolution
-         * public static final double NEO_CPR = 42;
-         * //# of motor revs per 1 full wheel rev
-         * public static final double DRIVE_GEAR_RATIO = 10.71;
-         * //Encoder counts per 1 full wheel rev
-         * public static final double ENCODER_COUNTS_PER_REVOLUTION = NEO_CPR * DRIVE_GEAR_RATIO;
-         */
+
+
         // 6 inches
         public static final double  ROBOT_WHEEL_DIAMETER_CM       = 15.24;
+        public static final double  ROBOT_WHEEL_CIRCUMFERENCE     = ROBOT_WHEEL_DIAMETER_CM * Math.PI;
+        /*
+         * // NEO motors have 42 encoder counts per motor revolution
+         * public static final double NEO_CPR = 42;
+         * // # of motor revs per 1 full wheel rev
+         * public static final double DRIVE_GEAR_RATIO = 10.71;
+         * // Encoder counts per 1 full wheel rev
+         * public static final double ENCODER_COUNTS_PER_REVOLUTION = NEO_CPR * DRIVE_GEAR_RATIO;
+         */
 
+        // previous code
         public static final double  ENCODER_COUNTS_PER_REVOLUTION = 8.46;
 
         // Turn directions for encoder command; positive is left, negative is right
@@ -81,7 +97,7 @@ public final class Constants {
         public static final float   RIGHT_TURN                    = -1;
 
         // Remove *2
-        public static final double  CM_PER_ENCODER_COUNT          = (ROBOT_WHEEL_DIAMETER_CM * Math.PI) * 2
+        public static final double  CM_PER_ENCODER_COUNT          = (ROBOT_WHEEL_DIAMETER_CM * Math.PI)
             / ENCODER_COUNTS_PER_REVOLUTION;
 
         // 26.5 inches
@@ -100,11 +116,22 @@ public final class Constants {
     }
 
     public static final class ClimbConstants {
-        public static final int    RIGHT_MOTOR_PORT    = 40;
-        public static final int    LEFT_MOTOR_PORT     = 41;
+        public static final int    RIGHT_MOTOR_PORT          = 40;
+        public static final int    LEFT_MOTOR_PORT           = 41;
 
-        public static final double CLIMBER_MOTOR_SPEED = 0.5;
-        public static final double RETRACT_MOTOR_SPEED = -0.65;
+        public static final double CLIMBER_MOTOR_SPEED       = 0.5;
+        public static final double RETRACT_MOTOR_SPEED       = -0.65;
+
+        public static final double MIN_HEIGHT_INCHES         = 0.0;
+        public static final double MAX_HEIGHT_INCHES         = 7.125;
+
+        public static final double CLIMB_GEAR_RATIO          = 16.0;
+
+        public static final double DIAMETER_INCHES           = 1.3125;
+
+        public static final double CIRCUMFERENCE             = Math.PI * DIAMETER_INCHES;
+
+        public static final double INCHES_PER_MOTOR_ROTATION = CIRCUMFERENCE / CLIMB_GEAR_RATIO;
     }
 
     public static final class LightsConstants {
